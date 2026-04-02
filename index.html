@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Birthday Gesture App 🎂</title>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+      }
+      video,
+      canvas {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        transform: scaleX(-1);
+      }
+
+      #msg {
+        position: absolute;
+        top: 40%;
+        width: 100%;
+        text-align: center;
+        font-size: 60px;
+        color: gold;
+        display: none;
+        z-index: 10;
+        animation: pop 0.5s ease;
+      }
+
+      @keyframes pop {
+        from {
+          transform: scale(0);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <video id="video" autoplay></video>
+    <canvas id="canvas"></canvas>
+
+    <div id="msg">🎉 Happy Birthday 🎂</div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
