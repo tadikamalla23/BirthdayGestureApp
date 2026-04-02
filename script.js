@@ -2,6 +2,7 @@ const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const msg = document.getElementById("msg");
+const music = document.getElementById("music");
 
 function isHandOpen(landmarks) {
   let open = 0;
@@ -21,6 +22,7 @@ function onResults(results) {
   canvas.height = video.videoHeight;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  music.play();
 
   let detectedOpen = false;
   let handRef = null;
@@ -52,11 +54,18 @@ function onResults(results) {
           y: wrist.y,
         },
       });
+
+      // music.currentTime = 0; // 🔥 restart song
+      // music.play(); // 🔥 PLAY ONLY ONCE
     }
 
     wasOpen = true;
   } else {
     msg.style.display = "none";
+
+    // music.pause(); // 🔥 STOP when hand closed
+    // music.currentTime = 0; // optional reset
+
     wasOpen = false;
   }
 }
