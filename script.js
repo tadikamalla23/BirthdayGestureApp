@@ -14,11 +14,16 @@ function isHandOpen(landmarks) {
   return open >= 3;
 }
 
+let wasOpen = false;
+
 function onResults(results) {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  let detectedOpen = false;
+  let handRef = null;
 
   if (results.multiHandLandmarks) {
     results.multiHandLandmarks.forEach((hand) => {
@@ -26,11 +31,33 @@ function onResults(results) {
       drawLandmarks(ctx, hand, { color: "white" });
 
       if (isHandOpen(hand)) {
-        msg.style.display = "block";
-      } else {
-        msg.style.display = "none";
+        detectedOpen = true;
+        handRef = hand; // save for confetti position
       }
     });
+  }
+
+  // ✅ Trigger logic OUTSIDE loop
+  if (detectedOpen) {
+    msg.style.display = "block";
+
+    if (!wasOpen && handRef && window.confetti) {
+      const wrist = handRef[0];
+
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: {
+          x: 1 - wrist.x,
+          y: wrist.y,
+        },
+      });
+    }
+
+    wasOpen = true;
+  } else {
+    msg.style.display = "none";
+    wasOpen = false;
   }
 }
 
